@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DataService } from '../shared/data.service';
 
 interface Journal { 
   id: Number;
@@ -16,34 +17,21 @@ export class HomePage {
   // variables used 
   listOfJournals = [];
 
-  journalForm: FormGroup;
-
-  constructor(public fb: FormBuilder) {
-    this.initForm();
+  constructor(public router: Router, public _dataService: DataService) {
+    this.listenForJournals();
   }
 
-  // init the form object - controls
-  initForm(){
-    this.journalForm = this.fb.group({
-      id: [null, Validators.required],
-      title: [null, Validators.required],
-      decrip: [null, Validators.required],
+  // this listens to the data serivce for chanfes in the journal list
+  listenForJournals(){
+    this._dataService.journalObs
+    .subscribe((data) => {
+      console.log(data);
+      this.listOfJournals = data;
     })
   }
-
-  // process form
-  onFormSubmit(){
-      console.log(this.journalForm.value);
-
-      /*
-        TODO:
-          logic needed to send form data to server.
-      */
-
-
-      // add journals to the array 
-      this.listOfJournals.push(this.journalForm.value);
-      this.journalForm.reset();
-  }
   
+  // this function navigates users to the add journal page
+  navigate() {
+    this.router.navigate(['/add-journal']);
+  }
 }

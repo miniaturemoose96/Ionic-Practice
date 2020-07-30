@@ -6,11 +6,18 @@
 
 <ion-content>
   <h1>Sign up here!</h1>
+  <div style="color:red" *ngIf="serverErrorMessage">
+    {{serverErrorMessage}}
+  </div>
   <form [formGroup]="signUpForm" (ngSubmit)="onFormSubmit()">
     <label for="fname">First name:</label><br>
     <input type="text" id="fname" formControlName="firstName"><br>
     <label for="lname">Last name:</label><br>
     <input type="text" id="lname" formControlName="lastName"><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" formControlName="email"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" formControlName="password"><br>
 
     <button type="submit"> Submit </button>
     <button type="button" (click)="backHome()"> Back </button>

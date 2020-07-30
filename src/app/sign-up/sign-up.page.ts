@@ -10,27 +10,47 @@ import { Router } from '@angular/router';
 })
 export class SignUpPage implements OnInit {
   public signUpForm: FormGroup;
+  public serverErrorMessage: String;
 
-  constructor(public fb: FormBuilder, public _dataService: DataService, public router: Router) {
+  constructor(
+    public fb: FormBuilder, 
+    public _dataService: DataService, 
+    public router: Router) {
+
+    }
+
+  ngOnInit() {
+    this.resetServerMessage()
     this.initForm();
   }
 
-  ngOnInit() {
+  resetServerMessage(){
+    this.serverErrorMessage = null;
   }
 
   initForm() {
     this.signUpForm = this.fb.group({
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required]
+      firstName: ['roberto', Validators.required],
+      lastName: ['sanchez', Validators.required],
+      email: ['roberto@urbantxt.com', Validators.required],
+      password: ['g00gle13', Validators.required],
     });
   }
 
   onFormSubmit() {
-   console.log('Submits new User info!')
+    this.resetServerMessage();
+   console.log('Submits new User info!');
+   this._dataService.signup(this.signUpForm.value)
+   .subscribe((res) => {
+    console.log(res);
+   }, (err) => {
+     console.log(err);
+     this.serverErrorMessage = err.error.message;
+   })
   }
 
   backHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 
 }

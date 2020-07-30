@@ -1,25 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Journal App Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div style="color:red" *ngIf="serverErrorMessage">
+  <div id="container">
+    <div id="imgcontainer">
+      <img
+        src="https://previews.123rf.com/images/izakowski/izakowski1308/izakowski130800135/21435380-cartoon-illustration-of-open-book-clip-art.jpg"
+        alt="Logo" class="books" />
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label for="email">Email: </label>
+      <input type="email" id="email" formControlName="email" />
+      <label for="password">Password: </label>
+      <input type="password" id="password" formControlName="password" />
+
+      <button id="loginButton" type="submit">Login</button>
+      <div id="signUp">
+        <p>Dont have account? <a (click)="navigateToSignup()">Sign Up Here!</a></p>
+      </div>
+    </form>
+  </div>
+  <!-- When error is encountered -->
+  <div style="color: red;" *ngIf="serverErrorMessage">
     {{serverErrorMessage}}
   </div>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="email">Email</label>
-      <input type="email" formControlName="email">
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" formControlName="password">
-    </div>
-    <div>
-      <button type="submit">Login </button>
-    </div>
-  </form>
-  <button (click)="navigateToSignup()">Dont have account? Signup here</button>
 </ion-content>
